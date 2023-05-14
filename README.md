@@ -1,5 +1,6 @@
 # How-To-Clear-ImmutableID-AzureAD-User
-Quick draft to show the process of clearing ImmutableID attribute of Azure AD users to re-sync these in a new OnPrem Hybrid environment for example
+
+This is a quick PowerShell draft to show the process of clearing ImmutableID attribute of Azure AD users to re-sync these in a new OnPrem Hybrid environment that you might have rebuilt after a disaster...
 
 ```powershell
 # CLEARING the ImmutableID attribute from one or more users
