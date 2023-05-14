@@ -1,14 +1,13 @@
 # How-To-Clear-ImmutableID-AzureAD-User
 Quick draft to show the process of clearing ImmutableID attribute of Azure AD users to re-sync these in a new OnPrem Hybrid environment for example
 
-```powershell
 # CLEARING the ImmutableID attribute from one or more users
 
 ## Purpose : re-sync cloud users with AADConnect OnPrem
 
 ### Use Case : hybrid is destroyed, you rebuild OnPrem hybrid, and you want to sync back Exchange Online mailbox-enabled users as Mail EnabledUsers OnPrem.
 
-#### Example for one user
+#### Exapmle for one user
 
 ##### Prerequisites:
 <#
@@ -21,6 +20,9 @@ https://learn.microsoft.com/en-us/azure/active-directory/hybrid/connect/how-to-c
 #>
 
 #Once OnPrem AD Sync is put on Staging, check Azure DirSync status (showing 2 ways below)
+
+#First you must Connect to Azure
+Connect-MsolService
 
 (Get-MSOLCompanyInformation).DirectorySynchronizationEnabled
 Get-MSOLCompanyInformation | select DirectorySynchronizationStatus
@@ -37,7 +39,7 @@ Get-MSOLCompanyInformation | select DirectorySynchronizationStatus
 #Store user UPN in a variable - you can use an array of users or get all users to remove all ImmutableIDs
 $AZUserUPN = "Anne.Orak@CanadaDrey.ca"
 
-# Connect to Azure
+# if not already done, Connect to Azure
 Connect-MsolService
 
 # Check the user ImmutableID(you can export it if you change your mind later and want to put it back)
@@ -81,6 +83,5 @@ Start-ADSyncSyncCycle -PolicyType Delta
 
 Start-ADSyncSyncCycle -PolicyType Initial
 
-#NOTE: the user will have a new ImmutableID based on the 
-
-```
+#NOTE: the user will have a new ImmutableID based on the UPN or the e-mail address, here's a quick summ-up how it works out: once soft-matched (aka UPN Onprem matches UPN on Azure AD, if not, e-mail address onprem marches e-mail address on Azure AD), one of these are converted to a base64 value and stamped into the "ImmutableID" attribute on Azure AD. Then on subsequent synchros, ImmutableID will match mS-DS-ConsistencyGuid attribute (which itself will be the base64 value of UPN or e-mail)
+# Details here: [Hybrid identity getting objects synced](https://techcommunity.microsoft.com/t5/core-infrastructure-and-security/hybrid-identity-getting-users-aligned/ba-p/2274690#:~:text=The%20immutable%20ID%20attribute%20in%20AAD%20is%20ObjectId%3B,the%20immutable%20ID%20is%20what%20represents%20object%20uniqueness.)
