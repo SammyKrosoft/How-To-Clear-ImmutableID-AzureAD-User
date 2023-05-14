@@ -9,7 +9,7 @@ This is a quick PowerShell draft to show the process of clearing ImmutableID att
 
 ### Use Case : hybrid is destroyed, you rebuild OnPrem hybrid, and you want to sync back Exchange Online mailbox-enabled users as Mail EnabledUsers OnPrem.
 
-#### Exapmle for one user
+#### Example for one user
 
 ##### Prerequisites:
 <#
