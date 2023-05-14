@@ -60,7 +60,12 @@ Here's what you should see when disabling DirSync on the Azure AD side:
 
 <img width="382" alt="image" src="https://github.com/SammyKrosoft/How-To-Clear-ImmutableID-AzureAD-User/assets/33433229/f89b17ad-ed1a-43d2-907a-6bf75bd2b9d7">
 
-When it shows "Disabled" (run ```Get-MSOLCompanyInformation | select DirectorySynchronizationStatus``` to monitor the DirSync state), move on to the below steps to clear out ImmutableID from one (or more) user(s):
+When it shows "Disabled" (run ```Get-MSOLCompanyInformation | select DirectorySynchronizationStatus``` to monitor the DirSync state) like the below:
+
+<img width="365" alt="image" src="https://github.com/SammyKrosoft/How-To-Clear-ImmutableID-AzureAD-User/assets/33433229/f8f268e2-8aef-4ce9-81d6-7e1508126f58">
+
+
+move on to the below steps to clear out ImmutableID from one (or more) user(s):
 
 ```powershell
 #Store user UPN in a variable - you can use an array of users or get all users to remove all ImmutableIDs
