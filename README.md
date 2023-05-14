@@ -78,8 +78,9 @@ Connect-MsolService
 Get-MSOlUser -UserPrincipalName $AZUserUPN | ft DisplayName, ImmutableID
 
 #NOTE: to export all immurableIDs:
+$FullExportCSVPath = "c:\temp\UsersImmutableIDs.csv"
+Get-MsolUser -All | Select-Object UserprincipalName,ImmutableID,WhenCreated,LastDirSyncTime| Export-Csv $FullExportCSVPath -NoTypeInformation
 
-Get-MsolUser -All | Select-Object UserprincipalName,ImmutableID,WhenCreated,LastDirSyncTime| Export-Csv c:\temp\UsersImmutableIDs.csv -NoTypeInformation
 
 # Set ImmutableID attribute to $null
 Set-MsolUser -UserPrincipalName $AZUserUPN -ImmutableId $null
