@@ -2,6 +2,19 @@
 
 This is a quick PowerShell draft to show the process of clearing ImmutableID attribute of Azure AD users to re-sync these in a new OnPrem Hybrid environment that you might have rebuilt after a disaster...
 
+## Quick summary how it works
+
+- the user object will have a new ImmutableID value based on its ObjectGUID, here's a quick summ-up how it works out: 
+  
+  - the user object in OnPRem AD is soft-matched with the object in Azure AD (soft-march = UPN Onprem matches UPN on Azure AD, if not, e-mail address onprem marches e-mail address on Azure AD). 
+  - When there is a match between OnPrem AD user and AAD user, the OnPrem user's ObjectGUID is converted to a base64 value and stamped into the mS-DS-ConsistencyGuid attribute
+  - That ms-DS-ConsistencyGuid value is copied on the "ImmutableID" attribute of the user on Azure AD.
+  - Then on subsequent synchros, ImmutableID will match with the ms-DS-ConsistencyGuid, this time it is called a "Hard match" (as opposed to Soft-match above)
+
+All Details are in this article here: [Hybrid identity getting objects synced](https://techcommunity.microsoft.com/t5/core-infrastructure-and-security/hybrid-identity-getting-users-aligned/ba-p/2274690#:~:text=The%20immutable%20ID%20attribute%20in%20AAD%20is%20ObjectId%3B,the%20immutable%20ID%20is%20what%20represents%20object%20uniqueness.)
+
+## PowerShell sequence to check and set the ImmutableID of a user if you need to
+
 ```powershell
 # CLEARING the ImmutableID attribute from one or more users
 
@@ -83,9 +96,5 @@ Start-ADSyncSyncCycle -PolicyType Delta
 ## For a Full Sync (only necessary in some situations):
 
 Start-ADSyncSyncCycle -PolicyType Initial
-
-#NOTE: the user object will have a new ImmutableID value based on its ObjectGUID, here's a quick summ-up how it works out: once soft-matched (aka UPN Onprem matches UPN on Azure AD, if not, e-mail address onprem marches e-mail address on Azure AD). When there is a match between OnPrem AD user and AAD user, the OnPrem user's ObjectGUID is converted to a base64 value and stamped into the "ImmutableID" attribute on Azure AD. At the same time, the ObjectGUID is copied on the ms-DS-ConsistencyGUID attribute. Then on subsequent synchros, ImmutableID will match mS-DS-ConsistencyGuid attribute.
-
-# Details here: [Hybrid identity getting objects synced](https://techcommunity.microsoft.com/t5/core-infrastructure-and-security/hybrid-identity-getting-users-aligned/ba-p/2274690#:~:text=The%20immutable%20ID%20attribute%20in%20AAD%20is%20ObjectId%3B,the%20immutable%20ID%20is%20what%20represents%20object%20uniqueness.)
 
 ```
