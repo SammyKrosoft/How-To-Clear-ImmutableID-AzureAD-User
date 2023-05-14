@@ -11,6 +11,8 @@ This is a quick PowerShell draft to show the process of clearing ImmutableID att
   - That ms-DS-ConsistencyGuid value is copied on the "ImmutableID" attribute of the user on Azure AD.
   - Then on subsequent synchros, ImmutableID will match with the ms-DS-ConsistencyGuid, this time it is called a "Hard match" (as opposed to Soft-match above)
 
+> NOTE: the **ImmutableID** attribute is also called the **sourceAnchor**.
+
 All Details are in this article here: [Hybrid identity getting objects synced](https://techcommunity.microsoft.com/t5/core-infrastructure-and-security/hybrid-identity-getting-users-aligned/ba-p/2274690#:~:text=The%20immutable%20ID%20attribute%20in%20AAD%20is%20ObjectId%3B,the%20immutable%20ID%20is%20what%20represents%20object%20uniqueness.)
 
 ## PowerShell sequence to check and set the ImmutableID of a user if you need to
