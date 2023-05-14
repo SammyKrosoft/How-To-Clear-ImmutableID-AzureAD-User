@@ -84,8 +84,22 @@ Get-MsolUser -All | Select-Object UserprincipalName,ImmutableID,WhenCreated,Last
 
 # Set ImmutableID attribute to $null
 Set-MsolUser -UserPrincipalName $AZUserUPN -ImmutableId $null
+```
 
-#Check the user ImmutableID is cleared
+**NOTE:** In my tests, setting ```-ImmutableID``` to ```$null``` did not change the ImmurableID value... I had to replace the ```$null``` value into simple quotes, like this:
+
+```
+Set-MsolUser -UserPrincipalName $AZUserUPN -ImmutableId ''
+```
+
+And I was able to remove Immutble ID like this.
+
+**NOTE 2:** If you want to clear the ```ImmutableID``` attribute for all users, you can call ```Get-MSOLUser -All | Set-MSOLUser -ImmutableID '' ``` but please **BE CAREFUL** about that if you still are configured in a hybrid infrastructure as this will "disconnect" all your Azure AD objects from your OnPrem objects.
+
+Next back to our process in PowerShell, let's check if the users's ImmutableID is cleared...
+
+```powershell
+#Check the user's ImmutableID is cleared
 Get-MSOLUser -UserPrincipalName $AZUserUPN | ft DisplayName, ImmutableID
 
 
