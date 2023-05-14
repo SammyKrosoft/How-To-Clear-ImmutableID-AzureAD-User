@@ -54,6 +54,15 @@ Get-MSOLCompanyInformation | select DirectorySynchronizationStatus
 
 #NOTE: once you set Dirsync to $False and back to $True on Azure AD, you must wait between 12 and 72 hours before being able to change it again.
 
+```
+
+Here's what you should see when disabling DirSync on the Azure AD side:
+
+<img width="382" alt="image" src="https://github.com/SammyKrosoft/How-To-Clear-ImmutableID-AzureAD-User/assets/33433229/f89b17ad-ed1a-43d2-907a-6bf75bd2b9d7">
+
+
+
+```powershell
 #Store user UPN in a variable - you can use an array of users or get all users to remove all ImmutableIDs
 $AZUserUPN = "Anne.Orak@CanadaDrey.ca"
 
