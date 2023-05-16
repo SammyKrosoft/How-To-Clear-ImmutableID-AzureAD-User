@@ -6,7 +6,12 @@ This is a quick PowerShell draft to show the process of clearing ImmutableID att
 
 - the user object will have a new ImmutableID value based on its ObjectGUID, here's a quick summ-up how it works out: 
   
-  - the user object in OnPRem AD is soft-matched with the object in Azure AD (soft-march = UPN Onprem matches UPN on Azure AD, if not, e-mail address onprem marches e-mail address on Azure AD). 
+  - the user object in OnPRem AD is soft-matched with the object in Azure AD.
+
+**NOTE:**
+Soft match is the process used to link an object being synced from on-premises for the first time with one that already exists in the cloud (Azure AD). Soft match will first be attempted using the standard logic, based on the primary SMTP address. If a match isn't found based on primary SMTP, then a match will be attempted based on UserPrincipalName (UPN). UPN soft-match is not enabled by default, only SMTP soft-match happens. To enable UPN soft match, see [this article](https://learn.microsoft.com/en-us/powershell/module/msonline/set-msoldirsyncfeature?view=azureadps-1.0) to enable it - also note that once enabled it cannot be disabled.
+
+
   - When there is a match between OnPrem AD user and AAD user, the OnPrem user's ObjectGUID is converted to a base64 value and stamped into the mS-DS-ConsistencyGuid attribute
   - That ms-DS-ConsistencyGuid value is copied on the "ImmutableID" attribute of the user on Azure AD.
   - Then on subsequent synchros, ImmutableID will match with the ms-DS-ConsistencyGuid, this time it is called a "Hard match" (as opposed to Soft-match above)
