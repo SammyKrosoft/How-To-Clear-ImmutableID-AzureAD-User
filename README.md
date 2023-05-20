@@ -1,4 +1,4 @@
-# How-To-Clear-ImmutableID-AzureAD-User
+# Understanding and managing AADConnect user object match (sourceAnchor/ImmutableID)
 
 In an Hybrid environment setup with AADConnect to synchronize OnPrem AD (AD DS) and Azure AD, objects are linked by an attribute. This attribute is called "sourceAnchor", or "ImmutableID", and it's based on the ObjectGUID. First Objects are matched using the primary mail (SMTP) address of the object, then the sourceAnchor (on Metaverse) / ImmurableID (on AzureAD) **and** the *ms-DS-ConsistencyGuid* (on AD DS Onprem) attributes are populated with the objectGUID value (converted in Base64) ==> that's how the OnPrem and the Azure objects are "hard-linked" together
 
