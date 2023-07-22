@@ -95,7 +95,7 @@ Set-MsolUser -UserPrincipalName $AZUserUPN -ImmutableId $null
 
 **NOTE:** In my tests, setting ```-ImmutableID``` to ```$null``` did not change the ImmurableID value... I had to replace the ```$null``` value into simple quotes, like this:
 
-```
+```powershell
 Set-MsolUser -UserPrincipalName $AZUserUPN -ImmutableId ''
 ```
 
